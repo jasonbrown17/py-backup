@@ -8,22 +8,25 @@ __license__ = "Apache ver. 2.0"
 __status__  = "Test"
 __date__    = "20191023"
 
-
-import os, tarfile
+import os, tarfile, datetime, sys
 
 def main():
 
-    backupdir = ""
-    tarname = ""
-    transferdir = ""
+    try:
+        currentdate = datetime.datetime.now()
+        todaysdate = currentdate.strftime("%Y%m%d")
 
-    with tarfile.open(tarname, "w:gz") as tar:
-        tar.add(backupdir, arcname=os.path.basename("backup"))
+        backupdir = ""
+        tarname = "backup_"+todaysdate+".tar.gz"
+        transferdir = ""
+
+        with tarfile.open(tarname, "w:gz") as tar:
+            tar.add(backupdir, arcname=os.path.basename("backup"))
+
+    except Exception as e:
+        print (e)
+        sys.exit(1)
 
 
 if __name__ == '__main__':
-
-    try:
-        main()
-    except:
-        print ("No such file or directory")
+    main()
