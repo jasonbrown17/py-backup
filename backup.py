@@ -9,6 +9,7 @@ __status__  = "Test"
 __date__    = "20191023"
 
 import os, tarfile, datetime, sys
+from shutil import move
 
 def main():
 
@@ -22,6 +23,8 @@ def main():
 
         with tarfile.open(tarname, "w:gz") as tar:
             tar.add(backupdir, arcname=os.path.basename("backup"))
+
+        move(tarname, transferdir)
 
     except Exception as e:
         print (e)
