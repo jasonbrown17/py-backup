@@ -6,10 +6,11 @@ __email__   = "jason@jasonbrown.us"
 __version__ = "0.1"
 __license__ = "Apache ver. 2.0"
 __status__  = "Test"
-__date__    = "20191023"
+__date__    = "20191031"
 
 import os, tarfile, datetime, sys
 from shutil import move
+from time import time
 
 def main():
 
@@ -25,6 +26,17 @@ def main():
             tar.add(backupdir, arcname=os.path.basename("backup"))
 
         move(tarname, transferdir)
+
+        curtime = time()
+
+        os.chdir(transferdir)
+
+        for f in os.listdir():
+            create_time = os.path.getctime(f)
+            if (curtime - create_time) // (24 * 3600) > 2:
+                os.remove(f)
+                print ('{} remove'.format(f))
+
 
     except Exception as e:
         print (e)
